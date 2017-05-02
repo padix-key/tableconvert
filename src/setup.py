@@ -6,5 +6,6 @@ setup(name="tableconvert",
       url="https://github.com/padix-key/tableconvert",
       author="Patrick Kunzmann",
       license="MIT",
-      packages=["numpy"],
+      packages=["tableconvert"],
+      install_requires=["numpy"],
       zip_safe=False)
