@@ -21,7 +21,11 @@ def convert(table: str, convert_comma: bool = False) -> np.ndarray:
     # fill array with table values
     for i in range(shape[0]):
         for j in range(shape[1]):
-            data[i,j] = float(table[i][j])
+            try:
+                value = float(table[i][j])
+            except ValueError:
+                value = np.nan
+            data[i,j] = value
     return data
 
 if __name__ == '__main__':
@@ -29,17 +33,22 @@ if __name__ == '__main__':
     
     table = """
             0,172    0,464    65,586    89
-            7        9,8      87,644    897,8
+            7        INVALID    87,644    897,8
             53       0,123    880       78,85
             """
     
-    exp_result = [[1.72000000e-01, 4.64000000e-01, 6.55860000e+01, 8.90000000e+01],
-                  [7.00000000e+00, 9.80000000e+00, 8.76440000e+01, 8.97800000e+02],
-                  [5.30000000e+01, 1.23000000e-01, 8.80000000e+02, 7.88500000e+01]]
+    exp_result = np.array([[1.72000000e-01, 4.64000000e-01, 6.55860000e+01, 8.90000000e+01],
+                           [7.00000000e+00, np.nan, 8.76440000e+01, 8.97800000e+02],
+                           [5.30000000e+01, 1.23000000e-01, 8.80000000e+02, 7.88500000e+01]])
     
     conv_table = convert(table, True)
     
-    if (np.array_equal(exp_result, conv_table)):
+    # check for array equality considering "NaN"
+    if ((exp_result == conv_table) | (np.isnan(conv_table) & np.isnan(exp_result))).all():
         print("Success!")
     else:
         print("Failure!")
+        print("Expected:")
+        print(exp_result)
+        print("Result:")
+        print(conv_table)
