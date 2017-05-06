@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name="tableconvert",
-      version="0.1",
+      version="1.0",
       description="This package simply converts pasted spreadsheet data into a numpy array",
       url="https://github.com/padix-key/tableconvert",
       author="Patrick Kunzmann",
