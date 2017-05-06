@@ -1,6 +1,6 @@
 import numpy as np
 
-def convert(table: str, convert_comma: bool = False) -> np.ndarray:
+def convert(table: str, convert_comma: bool = True) -> np.ndarray:
     if convert_comma:
         # convert "," to international "."
         table = table.replace(",",".")
@@ -32,16 +32,16 @@ if __name__ == '__main__':
     print("Conducting unit test")
     
     table = """
-            0,172    0,464    65,586    89
-            7        INVALID    87,644    897,8
-            53       0,123    880       78,85
+            0,172    0,464    65.586    89
+            7        INVALID  87.644    897,8
+            53       0,123    880       78.85
             """
     
     exp_result = np.array([[1.72000000e-01, 4.64000000e-01, 6.55860000e+01, 8.90000000e+01],
                            [7.00000000e+00, np.nan, 8.76440000e+01, 8.97800000e+02],
                            [5.30000000e+01, 1.23000000e-01, 8.80000000e+02, 7.88500000e+01]])
     
-    conv_table = convert(table, True)
+    conv_table = convert(table)
     
     # check for array equality considering "NaN"
     if ((exp_result == conv_table) | (np.isnan(conv_table) & np.isnan(exp_result))).all():
